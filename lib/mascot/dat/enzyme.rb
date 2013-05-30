@@ -27,7 +27,7 @@ module Mascot
         @restrictions = []
         @terminals  = []
 
-        enz_section.split(/\n/).each do |line|
+        enz_section.split(/\r?\n/).each do |line|
           k,v = line.chomp.split(":")
           case k
           when "Title"

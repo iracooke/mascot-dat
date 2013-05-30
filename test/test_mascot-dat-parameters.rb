@@ -5,14 +5,17 @@ class TestMascotDatParameters < TestMascotDatHelper
   def setup
     super
     @parameters =  @dat.parameters
+    @fromhtml_parameters =  @dat_withhtml.parameters
   end
 
   def test_params
     assert_kind_of(Mascot::DAT::Parameters, @parameters)
+    assert_kind_of(Mascot::DAT::Parameters, @fromhtml_parameters)
   end
 
   def test_params_mods
     assert_equal("Carbamidomethyl (C)", @parameters.parameters["MODS"])
+    assert_equal("Carbamidomethyl (C)", @fromhtml_parameters.parameters["MODS"])
   end
 
 end

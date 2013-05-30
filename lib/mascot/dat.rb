@@ -63,6 +63,7 @@ module Mascot
       if @idx.has_key?(key.to_sym)
         @dat_file.pos = @idx[key.to_sym]
       else
+        p @idx
         raise Exception.new "Invalid DAT section \"#{key}\""
       end
     end
@@ -156,20 +157,26 @@ module Mascot
       # grep the boundary positions of the file
       positions = []
       @dat_file.rewind()
-      # MIME header line, to parse out boundary
-      @dat_file.readline
-      @dat_file.readline =~/boundary=(\w+)$/
-      @boundary_string = "--#{$1}"
+      # Start from top of file and read until 
+      # we find the MIME header line, to parse out boundary
+      @dat_file.each_line do |line| 
+        line.chomp!
+        if line=~/boundary=(\w+)$/
+          @boundary_string = "--#{$1}"
+          break
+        end
+      end
       @boundary = /#{@boundary_string}/
       @idx[:boundary] = @boundary
       @idx[:boundary_string] = @boundary_string
       @dat_file.grep(@boundary) do |l|
         break if @dat_file.eof?
         section_position = @dat_file.pos - l.length
-        @dat_file.readline =~ /name="(.+)"/
-        @idx[$1.to_sym] = section_position
+        if @dat_file.readline =~ /name="(.+)"/
+          @idx[$1.to_sym] = section_position
+        end
       end
-
+      throw "Boundary String not found" if @boundary_string == nil
       if @cache_index
         idxfile = File.open(@dat_file.path + ".idx", 'wb')
         idxfile.write(::Marshal.dump(@idx))

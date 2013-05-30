@@ -64,6 +64,8 @@ module Mascot
           when /^q(\d+)_p(\d+)$/
             @query = $1.to_i
             @rank = $2.to_i
+            break if v=="-1" #Query with no hits. Can't get any more info
+
             psm_vals, prots  = v.split(";")
             psm_vals = psm_vals.split(',')
             @missed_cleavages= psm_vals[0].to_i

@@ -17,7 +17,7 @@ module Mascot
         @parameters = {}
         @names = []
 
-        params_str.split("\n").each do |l|
+        params_str.split(/\r?\n/).each do |l|
           k,v = l.split("=")
           next unless k && v
           @parameters[k] = v

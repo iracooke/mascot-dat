@@ -5,6 +5,10 @@ class TestMascotDat < TestMascotDatHelper
     assert_instance_of(Mascot::DAT, @dat)
   end
 
+  def test_open_file_with_html
+    assert_instance_of(Mascot::DAT, @dat_withhtml)
+  end
+
   def test_dat_boundary
     assert_equal(Regexp.new("--gc0p4Jq0M2Yt08jU534c0p"), @dat.boundary)
   end

@@ -4,44 +4,59 @@ class TestMascotDatQuery < TestMascotDatHelper
   def setup
     super
     @query = @dat.query(23)
+    @fromhtml_query = @dat_withhtml.query(3)
   end
   def test_name
     assert_equal("query23", @query.name)
+    assert_equal("query3", @fromhtml_query.name)
   end
   def test_title
     assert_equal("281.832701459371_513",@query.title)
+    assert_equal("mr192-HeLa24hx5_GC2_01_8356.d2.40.40",@fromhtml_query.title)
   end
   def test_rtinseconds
     assert_equal(513.0, @query.rtinseconds)
+    assert_equal(3372, @fromhtml_query.rtinseconds)
   end
   def test_index
     assert_equal(30,@query.index)
+    assert_equal(40,@fromhtml_query.index)
   end
   def test_charge
     assert_equal("3+",@query.charge)
+    assert_equal("2+",@fromhtml_query.charge)
   end
   def test_mass_min
     assert_equal(59.044502, @query.mass_min)
+    assert_equal(195.096490, @fromhtml_query.mass_min)
   end
   def test_mass_max
     assert_equal(730.399487,@query.mass_max)
+    assert_equal(1120.207480,@fromhtml_query.mass_max)
   end
   def test_int_min
     assert_equal(1.951e+05, @query.int_min)
+    assert_equal(9, @fromhtml_query.int_min)
   end
   def test_int_max
     assert_equal(1.951e+05, @query.int_max)
+    assert_equal(1127, @fromhtml_query.int_max)
   end
   def test_num_vals
     assert_equal(33,@query.num_vals)
+    assert_equal(265,@fromhtml_query.num_vals)
   end
   def test_num_used1
     assert_equal(-1, @query.num_used1)
+    assert_equal(-1, @fromhtml_query.num_used1)
   end
 
   def test_peaks
     expected_peaks = Marshal.load(File.read("test/fixtures/query23_peaks.dmp"))
     assert_equal(expected_peaks,@query.peaks)
+    expected_fromhtml_peaks = Marshal.load(File.read("test/fixtures/query3_peaks.dmp"))
+    assert_equal(expected_fromhtml_peaks,@fromhtml_query.peaks)
+#    File.open("test/fixtures/query3_peaks.dmp", 'w') { |file| file.write(Marshal.dump(@fromhtml_query.peaks)) }
   end
 
   def test_mz_array

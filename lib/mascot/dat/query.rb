@@ -66,7 +66,7 @@ module Mascot
       attr_reader :attributes
 
       def initialize(query_str)
-        query_str.split(/\n/).each do |l|
+        query_str.split(/\r?\n/).each do |l|
           next unless l =~ /(\w+)\=(.+)$/
           k,v = $1,$2
           case k

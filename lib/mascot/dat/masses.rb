@@ -56,7 +56,7 @@ module Mascot
         @deltas = []
         @fixed_modifications = []
 
-        masses_section.split("\n").each do |l|
+        masses_section.split(/\r?\n/).each do |l|
           k,v = l.split("=")
           next unless k && v
           case k
