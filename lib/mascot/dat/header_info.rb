@@ -36,12 +36,16 @@ module Mascot
 
       attr_reader :distribution
 
+      def method_missing(m)
+        @values[m.to_sym]
+      end
+
       def initialize(header_section)
         @keys = []
         @values = {}
         @databases = []
         kv_rgx = /^(\w+)=(.+)$/
-        header_section.split("\n").grep(/^(\w+)=(.+)$/) do |line|
+        header_section.split(/\r?\n/).grep(/^(\w+)=(.+)$/) do |line|
           key,val = $1,$2
           case key
           when /^distribution/
@@ -49,10 +53,7 @@ module Mascot
             @values[key.to_sym] = val.split(",").collect{|e| e.to_i }
           else
             @keys << key
-            @values[key.to_sym] = val
-            define_method key.to_sym do
-              @values[key.to_sym]
-            end
+            @values[key.to_sym] = val            
           end
         end
       end

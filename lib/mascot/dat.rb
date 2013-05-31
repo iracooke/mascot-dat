@@ -103,6 +103,11 @@ module Mascot
     def parameters
       @params ||= Mascot::DAT::Parameters.new(self.read_section(:parameters))
     end
+    # Parses header info from DAT file
+    # @return [Mascot::DAT::HeaderInfo]
+    def header
+      @params ||= Mascot::DAT::HeaderInfo.new(self.read_section(:header))
+    end    
 
     # Parses and return search databases from DAT file
     # @return [Mascot::DAT::SearchDatabases]
